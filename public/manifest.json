@@ -1,0 +1,83 @@
+{
+  "short_name": "エノキ電気",
+  "name": "ENOKI Appcenter",
+  "display": "standalone",
+  "display_override": ["standalone"],
+  "lang": "ja-JP",
+  "start_url": "./",
+  "id": "./",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "categories": ["social"],
+  "icons": [
+    {
+      "src": "../icons/icon-48.webp",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "../icons/icon-72.webp",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "../icons/icon-96.webp",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "../icons/icon-128.webp",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "../icons/icon-192.webp",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../icons/icon-256.webp",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "../icons/icon-512.webp",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "img/thumbnail.jpg",
+      "sizes": "4096x2304",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "img/thumbnail.jpg",
+      "sizes": "4096x2304",
+      "type": "image/jpeg",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "メインページ",
+      "description": "最新のコンテンツを表示します",
+      "url": "/",
+      "icons": [
+        {
+          "src": "img/icon96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "description": "ENOKI Appcenterです。"
+}
