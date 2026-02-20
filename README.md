@@ -1,278 +1,157 @@
-# エノキ電気ホームページ（2026 版）
+# ENOKI Appcenter（エノキ電気ホームページ）
 
-ENOKI Appcenter（アプリストア）内蔵型ホームページ
-
-![アイコン](./public/img/icon.png)
-
-## 目的･目標
-
-ときえのき個人のアプリ・ツール・楽曲を一箇所で公開するためのポートフォリオ兼簡易アプリストア（Nuxt 3 + TypeScript 予定）
-
-将来的には自分以外の人も投稿できるようにしたいポートフォリオ＋音楽配信プラットフォームを目指しています。
-
-## アクセス
-
-- エノキ電気公式ホームページ: <https://enoki.xyz>
-
-## 使用環境
-
-もともと WordPress → Nuxt にする
-
-【重要】アプリ審査中はホームページ見られるため、今上げているものの審査が完了次第デプロイ
-
-ソフトウェア、音楽はアプリストアのような感じで表示させる
-
-- 参考: <https://zakoducthunt.jp/>
-
-## カテゴリ機能
-
-以下の項目でカテゴリ分けられるようにして表示
-
-- 使用言語（複数選択可）
-- - C
-- - HSP
-- - Vue (TypeScript)
-- - Java（Spring）
-- - シェルスクリプト
-- - PHP
-- プラットフォーム（どれか一つ）
-- - Windows
-- - Web
-- - Mobile (Android/iOS)
-- - Linux
-- アプリかゲームか
-- 音楽かプログラムか
-- - ロックとかテクノポップとか詳細カテゴリ付ける？かも
-
-## 動的ルーティング
-
-### /apps/[appId]
-
-- 動的にアプリを表示する
-- 下記 TS 設定の項目に合わせる形で定義する（実際のデータは DB に保存）
-
-Web アプリもアプリかのようにしれっと表示する
-
-### /music/[musicId]
-
-- アプリ詳細画面とまあ同じような動きをすればいい
-- audio 要素は app.vue に記述して、ページを推移しても音が消えないようにする
-- - ページ下部に再生バーを付ける
-
-### /privacy
-
-プライバシーポリシー
-
-### /info
-
-- 運営情報
-- 企業情報（DUNS）
-- 特定商取引法
-
-### /profile
-
-/user/jikantoki へのリダイレクト
-
-### /user/[userId]
-
-- 開発者プロフィールページ
-- プロフィール情報 JSON（TS）の書き方、DB 連携方法は他リポジトリと共通テンプレートを使用
-- その人が作ったアプリが表示されるようにする
-
-### /login
-
-ログインページ（解放するが、アプリ登録権限は自分だけにする）
-
-### /register
-
-アカウント登録ページ（解放するが、アプリ登録権限は自分だけにする）
-
-#### 書くこと
-
-プロフィールと経験（エノキ電気とときえのきの関係性にも触れる）
-
-### トップページ（index.vue）
-
-トップページはアプリストア自体少しスクロールするとスキルシートが出てくるプログラムスキルに偏りすぎず、音楽やってる感も出す（Spotify や SoundCloud ぽさのある場所をトップページにも付けて、アプリ一覧項目に音楽（1 曲ずつとアルバム）も入れる）
-
-## 組織図
-
-エノキ電気グループ
-
-### エノテック（技術部門）
-
-- エノキ電気ニュース
-
-### エノサウンド（音楽部門）
-
-- ときえのき（個人）エノキ電気ホームページのどこか 1 ページに、ときえのき（個人）のホームページ（ペライチでいい）を作る
-- 制作楽曲に関しては、エノキ電気所属のときえのきが作りました
-
-## TS ファイル、JSON ファイル仕様
-
-紹介文・歌詞はマークダウン対応予定（Nuxt Content または markdown-it + shiki などで HTML 化）
-
-### アプリ情報
-
-- アプリ名　 string
-- アプリ ID（URL に使う）　 string
-- リリース日 unixtime number
-- アプリアイコン URL 又は Base64 string
-- サムネイル URL 又は Base64 string
-- 紹介文（できればマークダウン対応したい） string
-- 対応プラットフォーム string[]（複数選択）
-- 使用言語 string[]（複数選択）
-- アプリリンクス []
-- - 配列の中身 ↓↓↓
-- - - ボタンに表示するテキスト string
-- - - ボタン表示用 MDI アイコン string
-- - - 推移先 URL string
-- Github URL string
-- 紹介動画 Youtube URL string
-- 紹介画像 URL 又は Base64 string[]
-- アプリかゲームか（選択） string
-- 製作者情報はアップロードしたユーザーの情報を DB から拾う
-
-### 楽曲情報
-
-- 楽曲名 string
-- 楽曲 ID（URL に使う） string
-- 楽曲アイコン URL 又は Base64 string
-- オーディオファイル（mp3）URL string
-- リリース日 unixtime number
-- シングル？アルバム？（選択） string
-- （アルバムの場合）楽曲リスト []
-- - 配列の中身 ↓↓↓
-- - - 楽曲名 string
-- - - 楽曲シングルの URL string
-- 作詞者（デフォルトでアカウント名が出てくる） string
-- 作曲者（デフォルトでアカウント名が出てくる） string
-- 紹介文（できればマークダウン対応したい） string
-- 歌詞（できればマークダウン対応したい） string
-- MV Youtube URL string
-- その他 URL []
-- - 配列の中身 ↓↓↓
-- - - ボタンに表示するテキスト string
-- - - ボタン表示用 MDI アイコン string
-- - - 推移先 URL string
-- 製作者情報はアップロードしたユーザーの情報を DB から拾う
-
-### プロフィール情報
-
-- 他リポジトリでも使っている共通テンプレートを使用
-- 差分変更
-- - アプリ登録権限 boolean
-- - - デフォルトは false で、DB から自分だけ手動で true にする
-- - プロフィール情報 string
-- - - マークダウン対応
-- - 学歴 []
-- - - 配列の中身 ↓↓↓
-- - - - 日時 unixtime number
-- - - - 内容 string
-- - 経歴（学歴以外） []
-- - - 配列の中身 ↓↓↓
-- - - - 日時 unixtime number
-- - - - 内容 string
-- - 各種 SNS 等リンク []
-- - - 配列の中身 ↓↓↓
-- - - - ボタンに表示するテキスト string
-- - - - ボタン表示用 MDI アイコン string
-- - - - 推移先 URL string
-
-## Nuxt4 Template
-
-Nuxt を簡単にインストールしてすぐ使うためのテンプレート
+Nuxt 4 + Capacitor を使用したポートフォリオ兼アプリセンターのテンプレート
 
 - NOLICENSED ご自由にお使いください
 
-## 前提
+## 概要
 
-Node.js と npm と yarn くらい入ってるよね！（投げやり）
-デプロイ先は Vercel を想定してるけど多分どこでも動きます
-あと PHP の composer も用意してね
+ときえのきが制作したアプリ・ツール・楽曲を一箇所で公開するためのポートフォリオ兼簡易アプリストアです。  
+Nuxt 4 と Capacitor をベースにしており、Web・Android・iOS に対応しています。
 
-## INCLUDED
+- 公式サイト: <https://app.enoki.xyz>
 
-- Nuxt
-- Vuetify
-- VSCode、Git、Eslint、Prettier 周りの設定ファイル
-- Pug と SASS
-- PWA Preset
-- Google Fonts
+## 使用技術
 
-## 独自実装
+| カテゴリ | 技術 |
+| --- | --- |
+| フレームワーク | [Nuxt 4](https://nuxt.com/) |
+| UI コンポーネント | [Vuetify](https://vuetifyjs.com/) |
+| モバイルアプリ | [Capacitor 8](https://capacitorjs.com/) |
+| 状態管理 | [Pinia](https://pinia.vuejs.org/) |
+| 多言語対応 | [@nuxtjs/i18n](https://i18n.nuxtjs.org/) |
+| コンテンツ管理 | [@nuxt/content](https://content.nuxt.com/) |
+| テンプレートエンジン | [Pug](https://pugjs.org/) |
+| スタイル | SASS（SCSS） |
+| リンター | ESLint + Prettier |
+| バックエンド | PHP + MySQL |
+| パッケージマネージャー | yarn |
 
-- Ajax API
-- イイカンジにカスタマイズされた SCSS ファイル
-- コピペで使える pug テンプレート
-- 汎用性の高い関数群
-- ダークテーマ切り替えボタン
-- Push API（使いやすいように改良）
-- Notification API（使いやすいように改良）
-- アカウント登録時のメールアドレス認証、アクセストークンの発行
-- MySQL 用 API
+## ファイル構成
 
-## 制作予定
-
-- リッチエディタ
-
-## 注意
-
-ポート 12345 で動くようにしてあります
-
-VSCode での利用を推奨
-
-~~Vue3 慣れてなくて Options API 使ってるけど許して~~
-
-## 参考資料
-
-WebPush <https://tech.excite.co.jp/entry/2021/06/30/104213>
-
-## Setup
-
-このプログラムは、表示用サーバーと処理用サーバーの 2 つが必要です
-
-### 表示用サーバー
-
-```shell
-git clone git@github.com:jikantoki/jikantoki-appcenter.git
-echo 'これだけでセットアップ完了！'
-echo 'Vercelとかでデプロイしたらそのまま動く'
+```
+.
+├── app/                        # Nuxt アプリケーション本体
+│   ├── app.vue                 # アプリケーションのルートコンポーネント
+│   ├── components/             # Vue コンポーネント
+│   │   └── common/             # 共通コンポーネント（スプラッシュ等）
+│   ├── js/                     # ユーティリティ関数
+│   │   ├── Functions.ts        # 汎用関数群
+│   │   ├── ajaxFunctions.ts    # Ajax 通信処理
+│   │   ├── metaFunctions.ts    # メタ情報操作
+│   │   ├── muni.ts             # その他ユーティリティ
+│   │   ├── setup.ts            # 初期セットアップ処理
+│   │   └── webpush.ts          # Web Push 通知処理
+│   ├── mixins/
+│   │   └── mixins.ts           # Vue ミックスイン
+│   ├── pages/                  # ページコンポーネント
+│   │   ├── index.vue           # トップページ
+│   │   ├── login.vue           # ログイン
+│   │   ├── registar.vue        # アカウント登録
+│   │   ├── password_reset.vue  # パスワードリセット
+│   │   ├── tutorial.vue        # チュートリアル
+│   │   ├── terms.vue           # 利用規約
+│   │   ├── friendlist.vue      # フレンドリスト
+│   │   ├── qrcode.vue          # QR コード
+│   │   ├── about.vue           # このアプリについて
+│   │   ├── [ready].vue         # 読み込み完了ページ
+│   │   ├── settings/           # 設定ページ
+│   │   │   ├── index.vue       # 設定トップ
+│   │   │   ├── profile.vue     # プロフィール設定
+│   │   │   ├── display.vue     # 表示設定
+│   │   │   └── developer-options.vue  # 開発者オプション
+│   │   └── user/
+│   │       └── [userId].vue    # ユーザープロフィールページ
+│   └── stores/                 # Pinia ストア
+│       ├── meta.ts             # メタ情報
+│       ├── myProfile.ts        # 自分のプロフィール
+│       └── settings.ts         # アプリ設定
+├── php/                        # PHP バックエンド
+│   ├── functions/              # PHP 共通関数
+│   ├── createAccount.php       # アカウント作成
+│   ├── loginAccount.php        # ログイン処理
+│   ├── updateProfile.php       # プロフィール更新
+│   ├── sendPushForAccount.php  # プッシュ通知送信
+│   └── ...                     # その他 API エンドポイント
+├── public/                     # 静的ファイル
+│   ├── manifest.json           # PWA マニフェスト
+│   ├── sw.js                   # Service Worker
+│   └── icons/                  # アプリアイコン各サイズ
+├── assets/                     # ビルド時に処理されるアセット
+├── capacitor.config.ts         # Capacitor 設定
+├── nuxt.config.ts              # Nuxt 設定
+├── content.config.ts           # Nuxt Content 設定
+├── eslint.config.mjs           # ESLint 設定
+├── tsconfig.json               # TypeScript 設定
+├── database.sql                # MySQL データベース定義
+├── composer.json               # PHP 依存パッケージ
+└── package.json                # Node.js 依存パッケージ
 ```
 
-### WebPush 用の鍵を作成
+## セットアップ
 
-ここで作れます <https://web-push-codelab.glitch.me/>
+このプロジェクトは **表示用サーバー（Nuxt）** と **処理用サーバー（PHP + MySQL）** の 2 つが必要です。
 
-#### ストレージを操作できる環境の場合
+### 前提条件
 
-ルートに.env ファイルを作成し、以下のように記述（クォーテーション不要）
+- Node.js（最新 LTS 推奨）
+- yarn
+- PHP + Composer（バックエンド機能を使う場合）
+- MySQL（バックエンド機能を使う場合）
+
+### 1. 依存パッケージのインストール
+
+```shell
+yarn install
+composer install  # PHP バックエンドを使う場合
+```
+
+### 2. 環境変数の設定
+
+プロジェクトルートに `.env` ファイルを作成し、以下を記述します（クォーテーション不要）。
 
 ```env
-NUXT_WEBPUSH_PUBLICKEY=パブリックキーをコピー
-NUXT_WEBPUSH_PRIVATEKEY=プライベートキーをコピー
+NUXT_WEBPUSH_PUBLICKEY=WebPushパブリックキー
+NUXT_WEBPUSH_PRIVATEKEY=WebPushプライベートキー
 
 NUXT_API_ID=default
-NUXT_API_TOKEN=後のPHPで作成するアクセストークン
-NUXT_API_ACCESSKEY=後のPHPで作成するアクセスキー
+NUXT_API_TOKEN=PHPで発行するアクセストークン
+NUXT_API_ACCESSKEY=PHPで発行するアクセスキー
 
 NUXT_API_HOST=APIサーバーのホスト
 ```
 
-#### それ以外（Vercel デプロイ等）
+> WebPush 用の鍵は <https://web-push-codelab.glitch.me/> で生成できます。
 
-Project Settings → Enviroment Variables を開く  
-上記.env ファイルと同じ感じで設定
+**Vercel 等にデプロイする場合**: Project Settings → Environment Variables で同様に設定してください。
 
-### PHP サーバー（内部処理用）
+### 3. 開発サーバーの起動
 
-サーバーサイドは PHP で開発しているため、一部処理を実行するには PHP サーバーの用意が必要です  
-とりあえずレンタルサーバーでも借りれば実行できます
+```shell
+yarn run dev
+```
 
-1. API 用のドメインをクライアント側（Vercel 等）とは別で用意する
-2. このリポジトリの php フォルダをドメインのルートにする（.htaccess 等で）
-3. （準備中！！！）に API 用のドメインを記述
-4. リポジトリルート直下に/env.php を用意し、以下の記述をする
+`http://localhost:10000` でアクセスできます。
+
+### 4. ビルド
+
+```shell
+yarn run build     # 本番用ビルド
+yarn run generate  # 静的ファイル生成
+yarn run preview   # ビルド結果のプレビュー
+```
+
+## PHP バックエンドのセットアップ
+
+バックエンド機能（アカウント認証・プッシュ通知等）を使用する場合に必要です。
+
+### 1. PHP サーバーの用意
+
+レンタルサーバー等を利用し、`php/` フォルダをドメインのルートに配置します（`.htaccess` 等で設定）。
+
+### 2. `/env.php` の作成
+
+リポジトリルート直下に `env.php` を作成し、以下を記述します。
 
 ```php
 <?php
@@ -281,9 +160,8 @@ define('DIRECTORY_NAME', '/プロジェクトルートのディレクトリ名')
 define('NUXT_WebPush_PublicKey', 'パブリックキー');
 define('NUXT_WebPush_PrivateKey', 'プライベートキー');
 define('WebPush_URL', 'プッシュ通知を使うドメイン');
-define('WebPush_URL_dev', 'プッシュ通知を使うドメイン（開発用）');//この行は無くても良い
-define('WebPush_icon', 'プッシュ通知がスマホに届いたときに表示するアイコンURL');
-define('Default_user_icon', 'アイコン未設定アカウント用の初期アイコンURL');
+define('WebPush_icon', 'プッシュ通知アイコンURL');
+define('Default_user_icon', 'デフォルトユーザーアイコンURL');
 
 define('MySQL_Host', 'MySQLサーバー');
 define('MySQL_DBName', 'DB名');
@@ -295,165 +173,40 @@ define('SMTP_Username', 'SMTPユーザー名');
 define('SMTP_Mailaddress', '送信に使うメールアドレス');
 define('SMTP_Password', 'SMTPパスワード');
 define('SMTP_Server', 'SMTPサーバー');
-define('SMTP_Port', 587); //基本は587を使えば大丈夫
-
-$mailHeader = "<p>
-いつも Wallet Wallet をご利用いただきありがとうございます。
-<hr>
-</p>";
-$mailFooter = "<p>
-<hr>
-このメールに返信することはできません。
-<br>
-また、このメールに身に覚えのない場合は、エノキ電気までお問い合わせください。
-<br>
-<a href=\"https://enoki.xyz\">Wallet Wallet</a> by <a href=\"https://enoki.xyz\">エノキ電気</a>
-</p>";
-
+define('SMTP_Port', 587);
 ```
 
-#### PHP サーバー用の.htaccess の用意
+### 3. MySQL データベースの初期化
 
-大体こんな感じで設定する
+`database.sql` を MySQL にインポートします（PHPMyAdmin から DB 直下にインポート可）。
 
-```htaccess
-#トップページを/wallet/php にする
-<IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteBase /
-RewriteRule ^$ wallet/php/ [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ wallet/php/$1 [L]
-</IfModule>
-# 外部からのAPIへのアクセスを許可
-Header append Access-Control-Allow-Origin: "*"
+### 4. デフォルト API トークンの発行
 
-```
+1. セットアップした API サーバーの `/makeApiForAdmin.php` にアクセス
+2. 表示された内容を `.env` に記述
+3. 以後その値を使って API を操作できます
 
-### MySQL の用意
+> **注意**: トークンを忘れた場合は MySQL の `api_list` テーブルから `secretId='default'` の行を削除し、再度 `/makeApiForAdmin.php` にアクセスして再発行してください。
 
-#### /database.sql ファイルをインポートする
+## 主な設定箇所
 
-PHPMyAdmin が使える環境なら DB 直下にインポートして終わり、コマンドラインでやる方法は知らん
+| 項目 | 設定ファイル |
+| --- | --- |
+| アプリ名・バージョン | `/package.json` |
+| Nuxt 全般設定・OGP | `/nuxt.config.ts` |
+| Capacitor（モバイルアプリ）設定 | `/capacitor.config.ts` |
+| テーマ・Vuetify 設定 | `/nuxt.config.ts` の `vuetify` セクション |
+| PWA マニフェスト | `/public/manifest.json` |
+| 404 ページ | `/error.vue` |
 
-#### ※インポートでエラーが出たら
+## 注意事項
 
-/database_VIEW.sql の中身をコピーして phpmyadmin で直接実行
+- VSCode での開発を推奨します
+- `.vscode/` に推奨設定・拡張機能の設定が含まれています
 
-### デフォルト API のトークンを用意する
+## 参考資料
 
-このプログラムは独自のアクセストークンを利用して API にアクセスします。  
-そのため、初回 API を登録する作業が必要です。
-
-1. セットアップした API 用サーバーの/makeApiForAdmin.php にアクセス
-2. 初回アクセス時のみ MySQL で登録作業が行われるので、出てきた画面の内容をコピー
-3. .env にｲｲｶﾝｼﾞに内容を記述（書き方はさっき説明した）
-4. 以後、その値を使って API を操作できます
-
-**忘れたらリセット**するしかないので注意！（一部データは暗号化されており、管理者でも確認できません）
-
-#### デフォルト API トークンのリセット方法
-
-1. MySQL の api_list テーブルの secretId='default'を削除
-2. api_listForView の secretId='default'も同様に削除
-3. 初回登録と同じ感じでやる
-4. データベースに再度 default が追加されていることを確認
-
-## コンソール側で初期化
-
-```shell
-yarn install
-composer install #PHP用
-```
-
-### 実行
-
-```shell
-yarn run dev
-```
-
-### 設定方法
-
-| 項目           | 設定箇所                     |
-| -------------- | ---------------------------- |
-| アプリ名       | /package.json                |
-| フォント       | /layout/default.vue          |
-| ナビゲーション | /items/itemNavigationList.js |
-| 404 ページ     | /error.vue                   |
-
-## Nuxt Content Starter
-
-Look at the [Nuxt Content documentation](https://content.nuxt.com) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- WebPush: <https://tech.excite.co.jp/entry/2021/06/30/104213>
+- Nuxt 公式: <https://nuxt.com/docs>
+- Capacitor 公式: <https://capacitorjs.com/docs>
+- Vuetify 公式: <https://vuetifyjs.com/>
